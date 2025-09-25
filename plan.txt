@@ -1,0 +1,3 @@
+The state categories are:
+Timer is one state...
+Score is one state, questions are a state, question number is a state
