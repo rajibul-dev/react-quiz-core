@@ -78,6 +78,23 @@ function reducer(state: GameState, action: any) {
         draft.currentQuestionIndex += 1;
         draft.selectedAnswer = null;
         break;
+
+      case "TIME_UP":
+        draft.scene = "QUESTION_TIME_UP";
+        draft.selectedAnswer = null;
+        break;
+
+      case "RESTART_GAME":
+        draft = initialGameState;
+        draft.scene = "PLAYING_SCREEN";
+        draft.questions = action.payload.questions;
+        draft.currentQuestionIndex = 0;
+        break;
+
+      case "GO_TO_MENU":
+        draft = initialGameState;
+        draft.scene = "MENU_SCREEN";
+        break;
     }
   });
 }
@@ -85,8 +102,37 @@ function reducer(state: GameState, action: any) {
 export function GameStateProvider({ children }: { children: ReactNode }) {
   const [state, dispatch] = useReducer(reducer, initialGameState);
 
+  function startGame(questions: Question[]) {
+    dispatch({ type: "START_GAME", payload: { questions } });
+  }
+  function selectAnswer(answer: string, timeItTook: number) {
+    dispatch({ type: "SELECT_ANSWER", payload: { answer, timeItTook } });
+  }
+  function nextQuestion() {
+    dispatch({ type: "NEXT_QUESTION" });
+  }
+  function timeUp() {
+    dispatch({ type: "TIME_UP" });
+  }
+  function restartGame(questions: Question[]) {
+    dispatch({ type: "RESTART_GAME", payload: { questions } });
+  }
+  function goToMenu() {
+    dispatch({ type: "GO_TO_MENU" });
+  }
+
   return (
-    <GameStateContext.Provider value={{ state, dispatch }}>
+    <GameStateContext.Provider
+      value={{
+        state,
+        startGame,
+        selectAnswer,
+        nextQuestion,
+        timeUp,
+        restartGame,
+        goToMenu,
+      }}
+    >
       {children}
     </GameStateContext.Provider>
   );
