@@ -7,7 +7,10 @@ import {
   type ReactNode,
 } from "react";
 
-const TIMER_DURATION = 15; // seconds
+export const TIMER_DURATION = 15; // seconds
+export const FAST_ANSWER_THRESHOLD = TIMER_DURATION / 3; // seconds
+export const MEDIUM_ANSWER_THRESHOLD = (TIMER_DURATION / 3) * 2; // seconds
+export const SLOW_ANSWER_THRESHOLD = TIMER_DURATION; // seconds
 
 interface TimerState {
   time: number;
