@@ -57,7 +57,7 @@ export default function PlayingScreen() {
 
   // handle selecting answer
   const handleSelect = (option: string) => {
-    if (scene !== "PLAYING_SCREEN" || selectedAnswer) return;
+    if (scene !== "PLAYING_SCREEN" || selectedAnswer || !isActive) return;
 
     selectAnswer(option, TIMER_DURATION - time);
 
