@@ -6,6 +6,7 @@ import {
   MEDIUM_ANSWER_THRESHOLD,
   SLOW_ANSWER_THRESHOLD,
 } from "./useTimer";
+import allQuestions from "../questions";
 
 export const FAST_ANSWER_POINTS = 7;
 export const MEDIUM_ANSWER_POINTS = 5;
@@ -26,6 +27,16 @@ interface GameState {
   totalCorrect?: number;
 }
 
+interface GameStateContextType {
+  state: GameState;
+  startGame: () => void;
+  selectAnswer: (answer: string, timeItTook: number) => void;
+  nextQuestion: () => void;
+  timeUp: () => void;
+  restartGame: () => void;
+  goToMenu: () => void;
+}
+
 const initialGameState: GameState = {
   scene: "MENU_SCREEN",
   questions: [],
@@ -35,16 +46,20 @@ const initialGameState: GameState = {
   totalCorrect: 0,
 };
 
-const GameStateContext = createContext<any>(null);
+const GameStateContext = createContext<GameStateContextType | null>(null);
 
 function reducer(state: GameState, action: any) {
   return produce(state, (draft) => {
     switch (action.type) {
       case "START_GAME":
-        draft = initialGameState;
         draft.scene = "PLAYING_SCREEN";
         draft.questions = action.payload.questions;
+
+        // Reset game state
         draft.currentQuestionIndex = 0;
+        draft.score = 0;
+        draft.selectedAnswer = null;
+        draft.totalCorrect = 0;
         break;
 
       case "SELECT_ANSWER":
@@ -85,15 +100,25 @@ function reducer(state: GameState, action: any) {
         break;
 
       case "RESTART_GAME":
-        draft = initialGameState;
         draft.scene = "PLAYING_SCREEN";
         draft.questions = action.payload.questions;
+
+        // Reset game state
         draft.currentQuestionIndex = 0;
+        draft.score = 0;
+        draft.selectedAnswer = null;
+        draft.totalCorrect = 0;
         break;
 
       case "GO_TO_MENU":
-        draft = initialGameState;
         draft.scene = "MENU_SCREEN";
+
+        // Reset game state
+        draft.questions = [];
+        draft.currentQuestionIndex = 0;
+        draft.score = 0;
+        draft.selectedAnswer = null;
+        draft.totalCorrect = 0;
         break;
     }
   });
@@ -102,9 +127,17 @@ function reducer(state: GameState, action: any) {
 export function GameStateProvider({ children }: { children: ReactNode }) {
   const [state, dispatch] = useReducer(reducer, initialGameState);
 
-  function startGame(questions: Question[]) {
-    dispatch({ type: "START_GAME", payload: { questions } });
+  function startGame() {
+    const shuffled20Questions = [...allQuestions]
+      .sort(() => Math.random() - 0.5)
+      .slice(0, 20);
+
+    dispatch({
+      type: "START_GAME",
+      payload: { questions: shuffled20Questions },
+    });
   }
+
   function selectAnswer(answer: string, timeItTook: number) {
     dispatch({ type: "SELECT_ANSWER", payload: { answer, timeItTook } });
   }
@@ -114,9 +147,18 @@ export function GameStateProvider({ children }: { children: ReactNode }) {
   function timeUp() {
     dispatch({ type: "TIME_UP" });
   }
-  function restartGame(questions: Question[]) {
-    dispatch({ type: "RESTART_GAME", payload: { questions } });
+
+  function restartGame() {
+    const shuffled20Questions = [...allQuestions]
+      .sort(() => Math.random() - 0.5)
+      .slice(0, 20);
+
+    dispatch({
+      type: "RESTART_GAME",
+      payload: { questions: shuffled20Questions },
+    });
   }
+
   function goToMenu() {
     dispatch({ type: "GO_TO_MENU" });
   }

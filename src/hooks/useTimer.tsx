@@ -17,8 +17,16 @@ interface TimerState {
   isActive: boolean;
 }
 
+interface TimerContextType {
+  isActive: boolean;
+  time: number;
+  beginTimer: () => void;
+  stopTimer: () => void;
+  reCount: () => void;
+}
+
 const initialTimerValue = { time: TIMER_DURATION, isActive: false };
-const TimerContext = createContext<any>(null);
+const TimerContext = createContext<TimerContextType | null>(null);
 
 function reducer(state: TimerState, action: any) {
   return produce(state, (draft) => {
