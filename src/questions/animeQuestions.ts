@@ -559,12 +559,12 @@ const animeQuestions = [
     question:
       "Which demon is known as of the Upper Rank and posed a major threat in Mugen Train and Infinity Castle arcs?",
     options: [
-      "Upper Rank One (Kokushibo or similar)",
+      "Akaza (Upper Moon Three)",
       "Lower Rank Five",
       "Hand Demon",
-      "Rengoku's foe",
+      "Kokushibo (Upper Moon One)",
     ],
-    answer: "Upper Rank One (Kokushibo or similar)",
+    answer: "Akaza (Upper Moon Three)",
   },
   {
     id: 58,
