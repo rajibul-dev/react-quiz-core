@@ -16,8 +16,6 @@ function App() {
         </div>
       )}
 
-      {scene === "QUESTION_TIME_UP" && <div>Time Up Screen</div>}
-
       {scene === "GAME_OVER_SCREEN" && <div>Game Over Screen</div>}
     </div>
   );
