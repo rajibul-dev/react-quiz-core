@@ -73,7 +73,7 @@ export default function PlayingScreen() {
         {question.category}
       </span>
 
-      <h2 className="text-3xl text-center leading-11 font-semibold mb-8">
+      <h2 className="text-3xl text-center max-sm:text-2xl max-sm:leading-9 leading-11 font-semibold mb-8">
         {currentQuestionIndex + 1}) {question?.question}
       </h2>
 

@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+html {
+  font-family: "Montserrat", sans-serif;
+}
+
 body {
   background-color: #1a1c2b;
   color: #eee;

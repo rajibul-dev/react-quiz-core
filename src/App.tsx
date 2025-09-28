@@ -8,7 +8,7 @@ function App() {
   const { scene } = gameState;
 
   return (
-    <div className="max-w-3xl flex flex-col items-center justify-center h-dvh mx-auto p-4">
+    <div className="max-w-3xl flex flex-col items-center justify-center h-fit pt-40 pb-30 mx-auto p-4">
       {scene === "MENU_SCREEN" && <MenuScreen />}
 
       {scene === "PLAYING_SCREEN" && (
