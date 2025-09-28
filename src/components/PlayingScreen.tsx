@@ -20,6 +20,13 @@ export default function PlayingScreen() {
   const question = questions[currentQuestionIndex];
   const [highlightAnswerOnTimeUp, setHighlightAnswerOnTimeUp] = useState(false);
   const [shuffledOptions, setShuffledOptions] = useState<string[]>([]);
+  const [highestScore, setHighestScore] = useState(0);
+
+  // load highest score from localStorage
+  useEffect(() => {
+    const storedHighScore = Number(localStorage.getItem("highScore") || 0);
+    setHighestScore(storedHighScore);
+  }, []);
 
   const optionTextFromIndex = (index: number) =>
     String.fromCharCode(65 + index); // 0 -> A, 1 -> B...
@@ -75,7 +82,7 @@ export default function PlayingScreen() {
           <li
             key={option}
             className={clsx(
-              `py-4 px-18 cursor-pointer text-center text-xl border bg-gray-800 rounded text-white transition-colors`,
+              `py-4 px-18 cursor-pointer leading-7.5 text-center text-xl border bg-gray-800 rounded text-white transition-colors`,
               {
                 "hover:border-violet-400":
                   !selectedAnswer && !highlightAnswerOnTimeUp,
@@ -112,8 +119,13 @@ export default function PlayingScreen() {
 
         {/* score */}
         <div className="text-center text-lg text-gray-400 font-semibold">
-          Score: {score} | Correct Answers: {totalCorrect} / {questions.length}
+          Score: {score} | Correct Answers: {totalCorrect} / {questions.length}{" "}
+          | Highest score: {highestScore}
         </div>
+
+        <p className="text-center mt-4 text-lg font-semibold text-gray-400">
+          Faster answers give you more points!
+        </p>
       </div>
     </React.Fragment>
   );

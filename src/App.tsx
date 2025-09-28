@@ -1,3 +1,4 @@
+import GameOverScreen from "./components/GameOverScreen";
 import MenuScreen from "./components/MenuScreen";
 import PlayingScreen from "./components/PlayingScreen";
 import { useGameState } from "./hooks/useGameState";
@@ -16,7 +17,7 @@ function App() {
         </div>
       )}
 
-      {scene === "GAME_OVER_SCREEN" && <div>Game Over Screen</div>}
+      {scene === "GAME_OVER_SCREEN" && <GameOverScreen />}
     </div>
   );
 }
