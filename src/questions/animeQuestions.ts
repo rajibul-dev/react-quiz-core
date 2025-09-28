@@ -280,7 +280,7 @@ const animeQuestions = [
     question:
       "Which Titan is primarily used as a long-distance artillery-like weapon by inheritors?",
     options: ["Colossal Titan", "Armored Titan", "Beast Titan", "Jaw Titan"],
-    answer: "Colossal Titan",
+    answer: "Beast Titan",
   },
   {
     id: 34,
