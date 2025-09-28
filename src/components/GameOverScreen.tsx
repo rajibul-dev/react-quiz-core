@@ -65,7 +65,7 @@ export default function GameOverScreen() {
       </div>
       <button
         onClick={restartGame}
-        className="mt-8 text-lg font-semibold bg-violet-800 px-10 text-white py-2 rounded cursor-pointer hover:bg-violet-700 transition-colors"
+        className="mt-8 text-lg font-semibold bg-violet-800 px-10 text-white py-3 rounded cursor-pointer hover:bg-violet-700 transition-colors"
       >
         Play Again
       </button>
