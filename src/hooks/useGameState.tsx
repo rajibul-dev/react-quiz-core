@@ -5,6 +5,7 @@ import {
   FAST_ANSWER_THRESHOLD,
   MEDIUM_ANSWER_THRESHOLD,
   SLOW_ANSWER_THRESHOLD,
+  useTimer,
 } from "./useTimer";
 import allQuestions from "../questions";
 
@@ -24,7 +25,7 @@ interface GameState {
   currentQuestionIndex: number;
   score: number;
   selectedAnswer: string | null;
-  totalCorrect?: number;
+  totalCorrect: number;
 }
 
 interface GameStateContextType {
@@ -69,6 +70,7 @@ function reducer(state: GameState, action: any) {
           draft.questions[draft.currentQuestionIndex].answer;
 
         if (isCorrect) {
+          draft.totalCorrect += 1;
           const timeItTook = action.payload.timeItTook;
           if (timeItTook <= FAST_ANSWER_THRESHOLD) {
             draft.score += FAST_ANSWER_POINTS;
@@ -76,12 +78,12 @@ function reducer(state: GameState, action: any) {
             timeItTook >= FAST_ANSWER_THRESHOLD &&
             timeItTook <= MEDIUM_ANSWER_THRESHOLD
           ) {
-            draft.scene += MEDIUM_ANSWER_POINTS;
+            draft.score += MEDIUM_ANSWER_POINTS;
           } else if (
             timeItTook >= MEDIUM_ANSWER_THRESHOLD &&
             timeItTook <= SLOW_ANSWER_THRESHOLD
           ) {
-            draft.scene += SLOW_ANSWER_POINTS;
+            draft.score += SLOW_ANSWER_POINTS;
           }
         }
         break;
@@ -126,6 +128,7 @@ function reducer(state: GameState, action: any) {
 
 export function GameStateProvider({ children }: { children: ReactNode }) {
   const [state, dispatch] = useReducer(reducer, initialGameState);
+  const { beginTimer, stopTimer, reCount, isActive } = useTimer();
 
   function startGame() {
     const shuffled20Questions = [...allQuestions]
@@ -136,13 +139,16 @@ export function GameStateProvider({ children }: { children: ReactNode }) {
       type: "START_GAME",
       payload: { questions: shuffled20Questions },
     });
+    beginTimer();
   }
 
   function selectAnswer(answer: string, timeItTook: number) {
     dispatch({ type: "SELECT_ANSWER", payload: { answer, timeItTook } });
+    stopTimer();
   }
   function nextQuestion() {
     dispatch({ type: "NEXT_QUESTION" });
+    reCount();
   }
   function timeUp() {
     dispatch({ type: "TIME_UP" });
