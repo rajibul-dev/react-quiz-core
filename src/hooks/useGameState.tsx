@@ -131,21 +131,17 @@ export function GameStateProvider({ children }: { children: ReactNode }) {
   const { beginTimer, stopTimer, reCount } = useTimer();
 
   function startGame() {
-    const pickedIndexes: number[] = [];
-    while (pickedIndexes.length < 20) {
-      const randomIndex = Math.floor(Math.random() * allQuestions.length);
-      if (!pickedIndexes.includes(randomIndex)) {
-        pickedIndexes.push(randomIndex);
-      }
+    const shuffled = [...allQuestions];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
     }
 
-    const shuffled20Questions = pickedIndexes.map(
-      (index) => allQuestions[index]
-    );
+    const selected = shuffled.slice(0, 20);
 
     dispatch({
       type: "START_GAME",
-      payload: { questions: shuffled20Questions },
+      payload: { questions: selected },
     });
     beginTimer();
   }
@@ -163,21 +159,17 @@ export function GameStateProvider({ children }: { children: ReactNode }) {
   }
 
   function restartGame() {
-    const pickedIndexes: number[] = [];
-    while (pickedIndexes.length < 20) {
-      const randomIndex = Math.floor(Math.random() * allQuestions.length);
-      if (!pickedIndexes.includes(randomIndex)) {
-        pickedIndexes.push(randomIndex);
-      }
+    const shuffled = [...allQuestions];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
     }
 
-    const shuffled20Questions = pickedIndexes.map(
-      (index) => allQuestions[index]
-    );
+    const selected = shuffled.slice(0, 20);
 
     dispatch({
-      type: "RESTART_GAME",
-      payload: { questions: shuffled20Questions },
+      type: "START_GAME",
+      payload: { questions: selected },
     });
     beginTimer();
   }
