@@ -131,9 +131,17 @@ export function GameStateProvider({ children }: { children: ReactNode }) {
   const { beginTimer, stopTimer, reCount } = useTimer();
 
   function startGame() {
-    const shuffled20Questions = [...allQuestions]
-      .sort(() => Math.random() - 0.5)
-      .slice(0, 20);
+    const pickedIndexes: number[] = [];
+    while (pickedIndexes.length < 20) {
+      const randomIndex = Math.floor(Math.random() * allQuestions.length);
+      if (!pickedIndexes.includes(randomIndex)) {
+        pickedIndexes.push(randomIndex);
+      }
+    }
+
+    const shuffled20Questions = pickedIndexes.map(
+      (index) => allQuestions[index]
+    );
 
     dispatch({
       type: "START_GAME",
@@ -155,14 +163,23 @@ export function GameStateProvider({ children }: { children: ReactNode }) {
   }
 
   function restartGame() {
-    const shuffled20Questions = [...allQuestions]
-      .sort(() => Math.random() - 0.5)
-      .slice(0, 20);
+    const pickedIndexes: number[] = [];
+    while (pickedIndexes.length < 20) {
+      const randomIndex = Math.floor(Math.random() * allQuestions.length);
+      if (!pickedIndexes.includes(randomIndex)) {
+        pickedIndexes.push(randomIndex);
+      }
+    }
+
+    const shuffled20Questions = pickedIndexes.map(
+      (index) => allQuestions[index]
+    );
 
     dispatch({
       type: "RESTART_GAME",
       payload: { questions: shuffled20Questions },
     });
+    beginTimer();
   }
 
   function goToMenu() {

@@ -3,7 +3,7 @@ import { FAST_ANSWER_POINTS, useGameState } from "../hooks/useGameState";
 import { format } from "date-fns";
 
 export default function GameOverScreen() {
-  const { state: gameState } = useGameState();
+  const { state: gameState, restartGame } = useGameState();
   const { score, totalCorrect, questions } = gameState;
 
   const [highestScore, setHighestScore] = useState(0);
@@ -63,6 +63,12 @@ export default function GameOverScreen() {
           </p>
         )}
       </div>
+      <button
+        onClick={restartGame}
+        className="mt-8 text-lg font-semibold bg-violet-800 px-10 text-white py-2 rounded cursor-pointer hover:bg-violet-700 transition-colors"
+      >
+        Play Again
+      </button>
     </>
   );
 }
