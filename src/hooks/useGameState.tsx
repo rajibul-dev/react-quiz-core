@@ -128,7 +128,7 @@ function reducer(state: GameState, action: any) {
 
 export function GameStateProvider({ children }: { children: ReactNode }) {
   const [state, dispatch] = useReducer(reducer, initialGameState);
-  const { beginTimer, stopTimer, reCount, isActive } = useTimer();
+  const { beginTimer, stopTimer, reCount } = useTimer();
 
   function startGame() {
     const shuffled20Questions = [...allQuestions]
